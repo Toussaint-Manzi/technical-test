@@ -22,20 +22,23 @@ export function Button({
   loading = false,
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+    "inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#1a1f2c] disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98]";
 
   const variantStyles = {
-    primary: "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
+    primary:
+      "bg-gradient-to-r from-[#f6941e] to-[#e8850f] text-white hover:from-[#ff9f2e] hover:to-[#f6941e] focus:ring-[#f6941e] shadow-lg shadow-[#f6941e]/25 hover:shadow-[#f6941e]/40",
     secondary:
-      "bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500",
-    danger: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
-    ghost: "bg-transparent text-gray-600 hover:bg-gray-100 focus:ring-gray-500",
+      "bg-[#333a4a] text-white hover:bg-[#3d4556] focus:ring-[#1eadee] border border-[#444c5c]",
+    danger:
+      "bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 focus:ring-red-500 shadow-lg shadow-red-500/25",
+    ghost:
+      "bg-transparent text-gray-300 hover:bg-[#333a4a] hover:text-white focus:ring-[#1eadee]",
   };
 
   const sizeStyles = {
-    sm: "px-3 py-1.5 text-sm",
-    md: "px-4 py-2 text-base",
-    lg: "px-6 py-3 text-lg",
+    sm: "px-4 py-2 text-sm",
+    md: "px-5 py-2.5 text-base",
+    lg: "px-7 py-3.5 text-lg",
   };
 
   const widthStyles = fullWidth ? "w-full" : "";

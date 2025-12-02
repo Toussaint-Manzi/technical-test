@@ -58,7 +58,9 @@ export default function ProductForm({
 
   return (
     <Card>
-      <Text variant="h3">Add New Product</Text>
+      <Text variant="h3" color="accent">
+        Add New Product
+      </Text>
       <Spacer size="md" />
       <form onSubmit={handleSubmit}>
         <Input
@@ -68,20 +70,20 @@ export default function ProductForm({
             setName(v);
             setErrors((e) => ({ ...e, name: undefined }));
           }}
-          placeholder="Enter product name"
+          placeholder="e.g. MacBook Pro 16"
           error={errors.name}
           autoFocus
         />
         <Spacer size="md" />
         <Input
-          label="Amount"
+          label="Amount (USD)"
           type="number"
           value={amount}
           onChange={(v) => {
             setAmount(v);
             setErrors((e) => ({ ...e, amount: undefined }));
           }}
-          placeholder="Enter amount"
+          placeholder="e.g. 2499.99"
           error={errors.amount}
         />
         <Spacer size="md" />
@@ -89,12 +91,12 @@ export default function ProductForm({
           label="Comment (optional)"
           value={comment}
           onChange={setComment}
-          placeholder="Add a comment..."
+          placeholder="e.g. Space Gray, 32GB RAM, 1TB SSD"
           rows={2}
         />
         <Spacer size="lg" />
         <Flex justify="end" gap="md">
-          <Button variant="secondary" onClick={onCancel} disabled={loading}>
+          <Button variant="ghost" onClick={onCancel} disabled={loading}>
             Cancel
           </Button>
           <Button type="submit" loading={loading}>

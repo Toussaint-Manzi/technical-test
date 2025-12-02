@@ -145,9 +145,11 @@ interface ProductsHeaderProps {
 function ProductsHeader({ user, onLogout }: ProductsHeaderProps) {
   return (
     <Header>
-      <Text variant="h3">My Products</Text>
+      <Text variant="h3" gradient>
+        My Products
+      </Text>
       <Flex gap="md">
-        <Text variant="caption" color="muted">
+        <Text variant="caption" color="accent-blue">
           {user?.email}
         </Text>
         <IconButton icon="logout" onClick={onLogout} title="Logout" />
@@ -183,7 +185,9 @@ function ProductsContent({
   return (
     <>
       <Flex justify="between" align="center">
-        <Text variant="h2">Products ({products.length})</Text>
+        <Text variant="h2" color="accent">
+          Products ({products.length})
+        </Text>
         {!showForm && <Button onClick={onShowForm}>Add Product</Button>}
       </Flex>
 

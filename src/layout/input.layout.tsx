@@ -28,10 +28,11 @@ export function Input({
   const inputId = React.useId();
 
   const baseStyles =
-    "block rounded-lg border bg-white px-4 py-2.5 text-gray-900 placeholder-gray-400 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-0";
+    "block rounded-xl border bg-[#2a3142] px-4 py-3 text-white placeholder-gray-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-offset-[#1a1f2c]";
   const normalStyles =
-    "border-gray-300 focus:border-blue-500 focus:ring-blue-500";
-  const errorStyles = "border-red-500 focus:border-red-500 focus:ring-red-500";
+    "border-[#333a4a] focus:border-[#1eadee] focus:ring-[#1eadee]/30 hover:border-[#444c5c]";
+  const errorStyles =
+    "border-red-500 focus:border-red-500 focus:ring-red-500/30";
   const widthStyles = fullWidth ? "w-full" : "";
 
   return (
@@ -39,7 +40,7 @@ export function Input({
       {label && (
         <label
           htmlFor={inputId}
-          className="block text-sm font-medium text-gray-700 mb-1.5"
+          className="block text-sm font-medium text-gray-300 mb-2"
         >
           {label}
         </label>
@@ -57,7 +58,7 @@ export function Input({
           error ? errorStyles : normalStyles
         } ${widthStyles}`}
       />
-      {error && <p className="mt-1.5 text-sm text-red-600">{error}</p>}
+      {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
     </div>
   );
 }
@@ -86,10 +87,11 @@ export function TextArea({
   const inputId = React.useId();
 
   const baseStyles =
-    "block rounded-lg border bg-white px-4 py-2.5 text-gray-900 placeholder-gray-400 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-0 resize-none";
+    "block rounded-xl border bg-[#2a3142] px-4 py-3 text-white placeholder-gray-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-offset-[#1a1f2c] resize-none";
   const normalStyles =
-    "border-gray-300 focus:border-blue-500 focus:ring-blue-500";
-  const errorStyles = "border-red-500 focus:border-red-500 focus:ring-red-500";
+    "border-[#333a4a] focus:border-[#1eadee] focus:ring-[#1eadee]/30 hover:border-[#444c5c]";
+  const errorStyles =
+    "border-red-500 focus:border-red-500 focus:ring-red-500/30";
   const widthStyles = fullWidth ? "w-full" : "";
 
   return (
@@ -97,7 +99,7 @@ export function TextArea({
       {label && (
         <label
           htmlFor={inputId}
-          className="block text-sm font-medium text-gray-700 mb-1.5"
+          className="block text-sm font-medium text-gray-300 mb-2"
         >
           {label}
         </label>
@@ -113,7 +115,7 @@ export function TextArea({
           error ? errorStyles : normalStyles
         } ${widthStyles}`}
       />
-      {error && <p className="mt-1.5 text-sm text-red-600">{error}</p>}
+      {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
     </div>
   );
 }

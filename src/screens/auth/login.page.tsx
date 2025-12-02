@@ -63,101 +63,35 @@ export default function LoginPage() {
   return (
     <PageLayout>
       <Container size="sm">
-        <LoginContent
-          email={email}
-          onEmailChange={handleEmailChange}
-          onSubmit={handleSubmit}
-          onKeyDown={handleKeyDown}
-          loading={loading}
-          error={error}
-        />
+        <Centered fullHeight padding="lg">
+          <Card padding="lg" shadow="lg">
+            <Text variant="h1" align="center" gradient>
+              Product List
+            </Text>
+            <Spacer size="sm" />
+            <Text variant="body" color="muted" align="center">
+              Enter your email to access your products
+            </Text>
+            <Spacer size="lg" />
+            <form onSubmit={handleSubmit}>
+              <Input
+                type="email"
+                value={email}
+                onChange={handleEmailChange}
+                onKeyDown={handleKeyDown}
+                placeholder="you@example.com"
+                label="Email address"
+                error={error}
+                autoFocus
+              />
+              <Spacer size="lg" />
+              <Button type="submit" fullWidth loading={loading}>
+                Continue
+              </Button>
+            </form>
+          </Card>
+        </Centered>
       </Container>
     </PageLayout>
-  );
-}
-
-interface LoginContentProps {
-  email: string;
-  onEmailChange: (value: string) => void;
-  onSubmit: (e: React.FormEvent) => void;
-  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  loading: boolean;
-  error: string;
-}
-
-function LoginContent({
-  email,
-  onEmailChange,
-  onSubmit,
-  onKeyDown,
-  loading,
-  error,
-}: LoginContentProps) {
-  return (
-    <Centered fullHeight padding="lg">
-      <Card padding="lg" shadow="lg">
-        <LoginHeader />
-        <Spacer size="lg" />
-        <LoginForm
-          email={email}
-          onEmailChange={onEmailChange}
-          onSubmit={onSubmit}
-          onKeyDown={onKeyDown}
-          loading={loading}
-          error={error}
-        />
-      </Card>
-    </Centered>
-  );
-}
-
-function LoginHeader() {
-  return (
-    <>
-      <Text variant="h1" align="center">
-        Product List
-      </Text>
-      <Spacer size="sm" />
-      <Text variant="body" color="muted" align="center">
-        Enter your email to access your products
-      </Text>
-    </>
-  );
-}
-
-interface LoginFormProps {
-  email: string;
-  onEmailChange: (value: string) => void;
-  onSubmit: (e: React.FormEvent) => void;
-  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-  loading: boolean;
-  error: string;
-}
-
-function LoginForm({
-  email,
-  onEmailChange,
-  onSubmit,
-  onKeyDown,
-  loading,
-  error,
-}: LoginFormProps) {
-  return (
-    <form onSubmit={onSubmit}>
-      <Input
-        type="email"
-        value={email}
-        onChange={onEmailChange}
-        onKeyDown={onKeyDown}
-        placeholder="you@example.com"
-        label="Email address"
-        error={error}
-        autoFocus
-      />
-      <Spacer size="lg" />
-      <Button type="submit" fullWidth loading={loading}>
-        Continue
-      </Button>
-    </form>
   );
 }

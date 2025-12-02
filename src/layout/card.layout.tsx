@@ -4,9 +4,15 @@ interface CardProps {
   children: React.ReactNode;
   padding?: "none" | "sm" | "md" | "lg";
   shadow?: "none" | "sm" | "md" | "lg";
+  animated?: boolean;
 }
 
-export function Card({ children, padding = "md", shadow = "md" }: CardProps) {
+export function Card({
+  children,
+  padding = "md",
+  shadow = "md",
+  animated = true,
+}: CardProps) {
   const paddingStyles = {
     none: "",
     sm: "p-4",
@@ -17,13 +23,15 @@ export function Card({ children, padding = "md", shadow = "md" }: CardProps) {
   const shadowStyles = {
     none: "",
     sm: "shadow-sm",
-    md: "shadow-md",
-    lg: "shadow-lg",
+    md: "shadow-lg shadow-black/20",
+    lg: "shadow-xl shadow-black/30",
   };
+
+  const animationStyles = animated ? "animate-scale-in" : "";
 
   return (
     <div
-      className={`bg-white rounded-xl border border-gray-200 ${paddingStyles[padding]} ${shadowStyles[shadow]}`}
+      className={`bg-[#242938] rounded-2xl border border-[#333a4a] ${paddingStyles[padding]} ${shadowStyles[shadow]} ${animationStyles} transition-all duration-300 hover:border-[#f6941e]/30`}
     >
       {children}
     </div>
@@ -35,7 +43,7 @@ interface CardHeaderProps {
 }
 
 export function CardHeader({ children }: CardHeaderProps) {
-  return <div className="border-b border-gray-200 pb-4 mb-4">{children}</div>;
+  return <div className="border-b border-[#333a4a] pb-4 mb-4">{children}</div>;
 }
 
 interface CardBodyProps {
@@ -51,7 +59,7 @@ interface CardFooterProps {
 }
 
 export function CardFooter({ children }: CardFooterProps) {
-  return <div className="border-t border-gray-200 pt-4 mt-4">{children}</div>;
+  return <div className="border-t border-[#333a4a] pt-4 mt-4">{children}</div>;
 }
 
 interface DraggableCardProps {
@@ -69,7 +77,7 @@ export function DraggableCard({
   onDragOver,
   onDragEnd,
 }: DraggableCardProps) {
-  const opacityStyles = isDragging ? "opacity-50" : "";
+  const opacityStyles = isDragging ? "opacity-50 scale-105" : "";
 
   return (
     <div
@@ -77,7 +85,7 @@ export function DraggableCard({
       onDragStart={onDragStart}
       onDragOver={onDragOver}
       onDragEnd={onDragEnd}
-      className={`bg-white rounded-xl border border-gray-200 p-6 shadow-md transition-opacity duration-200 cursor-grab active:cursor-grabbing ${opacityStyles}`}
+      className={`bg-[#242938] rounded-2xl border border-[#333a4a] p-5 shadow-lg shadow-black/20 transition-all duration-300 cursor-grab active:cursor-grabbing hover:border-[#1eadee]/50 hover:shadow-[#1eadee]/10 hover:shadow-xl ${opacityStyles} animate-fade-in`}
     >
       {children}
     </div>

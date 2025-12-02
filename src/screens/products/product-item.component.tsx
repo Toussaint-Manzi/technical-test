@@ -92,11 +92,15 @@ function ProductItemView({
         <Flex gap="md" align="start">
           <IconButton icon="drag" onClick={() => {}} title="Drag to reorder" />
           <Flex direction="col" align="start" gap="none">
-            <Text variant="h3">{product.name}</Text>
-            <Spacer size="sm" />
-            <Text variant="body" color="secondary">
-              Amount: {product.amount}
+            <Text variant="h3" color="primary">
+              {product.name}
             </Text>
+            <Spacer size="sm" />
+            <Flex gap="sm" align="center">
+              <Text variant="caption" color="accent">
+                ${product.amount.toLocaleString()}
+              </Text>
+            </Flex>
             {product.comment && (
               <>
                 <Spacer size="sm" />
@@ -160,7 +164,7 @@ function ProductItemEdit({ product, onSave, onCancel }: ProductItemEditProps) {
         <Input
           value={name}
           onChange={setName}
-          placeholder="Product name"
+          placeholder="e.g. MacBook Pro 16"
           autoFocus
           onKeyDown={handleKeyDown}
         />
@@ -168,13 +172,13 @@ function ProductItemEdit({ product, onSave, onCancel }: ProductItemEditProps) {
           type="number"
           value={amount}
           onChange={setAmount}
-          placeholder="Amount"
+          placeholder="e.g. 2499.99 (USD)"
           onKeyDown={handleKeyDown}
         />
         <TextArea
           value={comment}
           onChange={setComment}
-          placeholder="Comment (optional)"
+          placeholder="e.g. Space Gray, 32GB RAM, 1TB SSD"
           rows={2}
         />
         <Flex justify="end" gap="sm">

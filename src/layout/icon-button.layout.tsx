@@ -117,19 +117,19 @@ export function IconButton({
   title,
 }: IconButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed";
+    "inline-flex items-center justify-center rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-[#1a1f2c] disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-110 active:scale-95";
 
   const variantStyles = {
     default:
-      "text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:ring-gray-500",
+      "text-gray-400 hover:text-white hover:bg-[#333a4a] focus:ring-[#1eadee]",
     danger:
-      "text-red-500 hover:text-red-700 hover:bg-red-50 focus:ring-red-500",
+      "text-red-400 hover:text-red-300 hover:bg-red-500/20 focus:ring-red-500",
     success:
-      "text-green-500 hover:text-green-700 hover:bg-green-50 focus:ring-green-500",
+      "text-green-400 hover:text-green-300 hover:bg-green-500/20 focus:ring-green-500",
   };
 
   const sizeStyles = {
-    sm: "p-1",
+    sm: "p-1.5",
     md: "p-2",
   };
 

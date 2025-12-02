@@ -55,9 +55,9 @@ interface ToastContainerProps {
 
 function ToastContainer({ toasts, onRemove }: ToastContainerProps) {
   const typeStyles = {
-    success: "bg-green-50 text-green-800 border-green-200",
-    error: "bg-red-50 text-red-800 border-red-200",
-    info: "bg-blue-50 text-blue-800 border-blue-200",
+    success: "bg-green-500/20 text-green-300 border-green-500/30",
+    error: "bg-red-500/20 text-red-300 border-red-500/30",
+    info: "bg-[#1eadee]/20 text-[#1eadee] border-[#1eadee]/30",
   };
 
   const iconPaths = {
@@ -72,7 +72,7 @@ function ToastContainer({ toasts, onRemove }: ToastContainerProps) {
       {toasts.map((toast) => (
         <div
           key={toast.id}
-          className={`flex items-center gap-3 px-4 py-3 rounded-lg border shadow-lg animate-slide-in ${
+          className={`flex items-center gap-3 px-4 py-3 rounded-xl border shadow-lg shadow-black/20 backdrop-blur-sm animate-slide-in ${
             typeStyles[toast.type]
           }`}
         >
@@ -92,7 +92,7 @@ function ToastContainer({ toasts, onRemove }: ToastContainerProps) {
           <span className="text-sm font-medium">{toast.message}</span>
           <button
             onClick={() => onRemove(toast.id)}
-            className="ml-2 text-current opacity-70 hover:opacity-100"
+            className="ml-2 text-current opacity-70 hover:opacity-100 transition-opacity"
           >
             <svg
               className="w-4 h-4"

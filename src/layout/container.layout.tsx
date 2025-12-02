@@ -36,7 +36,7 @@ interface PageLayoutProps {
 }
 
 export function PageLayout({ children }: PageLayoutProps) {
-  return <div className="min-h-screen bg-gray-50">{children}</div>;
+  return <div className="min-h-screen bg-[#1a1f2c]">{children}</div>;
 }
 
 interface HeaderProps {
@@ -45,7 +45,7 @@ interface HeaderProps {
 
 export function Header({ children }: HeaderProps) {
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+    <header className="bg-[#242938] border-b border-[#333a4a] sticky top-0 z-10 backdrop-blur-sm bg-opacity-90">
       <Container>
         <div className="flex items-center justify-between h-16">{children}</div>
       </Container>

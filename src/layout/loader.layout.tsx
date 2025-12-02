@@ -14,7 +14,7 @@ export function Loader({ size = "md", fullScreen = false }: LoaderProps) {
 
   const spinner = (
     <svg
-      className={`animate-spin text-blue-600 ${sizeStyles[size]}`}
+      className={`animate-spin text-[#f6941e] ${sizeStyles[size]}`}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -37,7 +37,7 @@ export function Loader({ size = "md", fullScreen = false }: LoaderProps) {
 
   if (fullScreen) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-gray-50 bg-opacity-75 z-50">
+      <div className="fixed inset-0 flex items-center justify-center bg-[#1a1f2c] bg-opacity-90 z-50">
         {spinner}
       </div>
     );
@@ -54,9 +54,9 @@ interface EmptyStateProps {
 
 export function EmptyState({ title, description, action }: EmptyStateProps) {
   return (
-    <div className="text-center py-12">
+    <div className="text-center py-12 animate-fade-in">
       <svg
-        className="mx-auto h-12 w-12 text-gray-400"
+        className="mx-auto h-12 w-12 text-[#f6941e]/50"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -68,9 +68,9 @@ export function EmptyState({ title, description, action }: EmptyStateProps) {
           d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
         />
       </svg>
-      <h3 className="mt-4 text-lg font-medium text-gray-900">{title}</h3>
+      <h3 className="mt-4 text-lg font-medium text-white">{title}</h3>
       {description && (
-        <p className="mt-2 text-sm text-gray-500">{description}</p>
+        <p className="mt-2 text-sm text-gray-400">{description}</p>
       )}
       {action && <div className="mt-6">{action}</div>}
     </div>
