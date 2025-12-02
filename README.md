@@ -117,7 +117,7 @@ This app uses a **passwordless email authentication** system:
 
 ## Live Demo
 
-🔗 [View Live Demo](https://your-deployment-url.vercel.app)
+🔗 [View Live Demo](https://my-products-azure.vercel.app/)
 
 ## License
 
