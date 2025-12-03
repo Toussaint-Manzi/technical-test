@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Stack } from "@/src/layout/container.layout";
 import { Product, ProductInput } from "@/src/types";
 import ProductItem from "./product-item.component";
@@ -17,6 +17,13 @@ export default function ProductList({
   onReorder,
 }: ProductListProps) {
   const [draggedId, setDraggedId] = useState<string | null>(null);
+  const [localOrder, setLocalOrder] = useState<Product[]>(products);
+  const draggedOverId = useRef<string | null>(null);
+
+  // Sync local order when products prop changes (e.g., after API response)
+  React.useEffect(() => {
+    setLocalOrder(products);
+  }, [products]);
 
   const handleDragStart = (id: string) => {
     setDraggedId(id);
@@ -25,26 +32,38 @@ export default function ProductList({
   const handleDragOver = (e: React.DragEvent, targetId: string) => {
     e.preventDefault();
     if (!draggedId || draggedId === targetId) return;
+    if (draggedOverId.current === targetId) return;
 
-    const draggedIndex = products.findIndex((p) => p.id === draggedId);
-    const targetIndex = products.findIndex((p) => p.id === targetId);
+    draggedOverId.current = targetId;
+
+    const draggedIndex = localOrder.findIndex((p) => p.id === draggedId);
+    const targetIndex = localOrder.findIndex((p) => p.id === targetId);
 
     if (draggedIndex === targetIndex) return;
 
-    const newProducts = [...products];
-    const [removed] = newProducts.splice(draggedIndex, 1);
-    newProducts.splice(targetIndex, 0, removed);
-
-    onReorder(newProducts.map((p) => p.id));
+    // Update local state only (visual feedback), no API call
+    const newOrder = [...localOrder];
+    const [removed] = newOrder.splice(draggedIndex, 1);
+    newOrder.splice(targetIndex, 0, removed);
+    setLocalOrder(newOrder);
   };
 
   const handleDragEnd = () => {
+    // Only call API on drop if order actually changed
+    const originalIds = products.map((p) => p.id).join(",");
+    const newIds = localOrder.map((p) => p.id).join(",");
+
+    if (originalIds !== newIds) {
+      onReorder(localOrder.map((p) => p.id));
+    }
+
     setDraggedId(null);
+    draggedOverId.current = null;
   };
 
   return (
     <Stack gap="md">
-      {products.map((product) => (
+      {localOrder.map((product) => (
         <ProductItem
           key={product.id}
           product={product}
