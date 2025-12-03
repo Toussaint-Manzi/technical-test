@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Header, Flex } from "@/src/layout/container.layout";
 import { Text } from "@/src/layout/text.layout";
 import { IconButton } from "@/src/layout/icon-button.layout";
@@ -15,8 +16,19 @@ export default function ProductsHeader() {
 
   return (
     <Header>
-      <Text variant="h3">My Products</Text>
-      <Flex gap="md">
+      <Flex gap="md" align="center">
+        <Image
+          src="/images/logo.png"
+          alt="Logo"
+          width={30}
+          height={30}
+          priority
+        />
+        <Text variant="h3" color="accent-blue">
+          My Products
+        </Text>
+      </Flex>
+      <Flex gap="md" align="center">
         <Text variant="caption" color="accent-blue">
           {user?.email}
         </Text>
