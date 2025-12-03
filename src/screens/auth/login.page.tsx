@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import {
   PageLayout,
@@ -10,15 +10,23 @@ import { Card } from "@/src/layout/card.layout";
 import { Text } from "@/src/layout/text.layout";
 import { Input } from "@/src/layout/input.layout";
 import { Button } from "@/src/layout/button.layout";
+import { Loader } from "@/src/layout/loader.layout";
 import { useToast } from "@/src/layout/toast.layout";
-import { login } from "@/src/service/auth.service";
+import { useAuth } from "@/src/context/auth.context";
 
 export default function LoginPage() {
   const router = useRouter();
   const { showToast } = useToast();
+  const { login, isAuthenticated, isLoading: authLoading } = useAuth();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      router.push("/products");
+    }
+  }, [authLoading, isAuthenticated]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,6 +67,14 @@ export default function LoginPage() {
       handleSubmit(e);
     }
   };
+
+  if (authLoading) {
+    return (
+      <PageLayout>
+        <Loader fullScreen />
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout>

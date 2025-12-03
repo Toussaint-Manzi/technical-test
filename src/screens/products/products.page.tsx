@@ -2,17 +2,15 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import {
   PageLayout,
-  Header,
   MainContent,
   Flex,
   Section,
 } from "@/src/layout/container.layout";
 import { Text } from "@/src/layout/text.layout";
 import { Button } from "@/src/layout/button.layout";
-import { IconButton } from "@/src/layout/icon-button.layout";
 import { Loader, EmptyState } from "@/src/layout/loader.layout";
 import { useToast } from "@/src/layout/toast.layout";
-import { logout, getCurrentUser } from "@/src/service/auth.service";
+import { useAuth } from "@/src/context/auth.context";
 import {
   getProducts,
   createProduct,
@@ -20,45 +18,38 @@ import {
   deleteProduct,
   reorderProducts,
 } from "@/src/service/products.service";
-import { Product, ProductInput, User } from "@/src/types";
+import { Product, ProductInput } from "@/src/types";
+import ProductsHeader from "./products-header.component";
 import ProductForm from "./product-form.component";
 import ProductList from "./product-list.component";
 
 export default function ProductsPage() {
   const router = useRouter();
   const { showToast } = useToast();
-  const [user, setUser] = useState<User | null>(null);
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    loadInitialData();
-  }, []);
-
-  const loadInitialData = async () => {
-    const userResult = await getCurrentUser();
-
-    if (!userResult.success || !userResult.data) {
+    if (!authLoading && !isAuthenticated) {
       router.push("/");
       return;
     }
 
-    setUser(userResult.data);
+    if (isAuthenticated) {
+      loadProducts();
+    }
+  }, [authLoading, isAuthenticated]);
 
-    const productsResult = await getProducts();
+  const loadProducts = async () => {
+    const result = await getProducts();
 
-    if (productsResult.success && productsResult.data) {
-      setProducts(productsResult.data);
+    if (result.success && result.data) {
+      setProducts(result.data);
     }
 
     setLoading(false);
-  };
-
-  const handleLogout = async () => {
-    await logout();
-    showToast("Logged out successfully", "info");
-    router.push("/");
   };
 
   const handleAddProduct = async (input: ProductInput) => {
@@ -110,7 +101,7 @@ export default function ProductsPage() {
     }
   };
 
-  if (loading) {
+  if (authLoading || loading) {
     return (
       <PageLayout>
         <Loader fullScreen />
@@ -120,101 +111,47 @@ export default function ProductsPage() {
 
   return (
     <PageLayout>
-      <ProductsHeader user={user} onLogout={handleLogout} />
+      <ProductsHeader />
       <MainContent>
-        <ProductsContent
-          products={products}
-          showForm={showForm}
-          onShowForm={() => setShowForm(true)}
-          onHideForm={() => setShowForm(false)}
-          onAddProduct={handleAddProduct}
-          onUpdateProduct={handleUpdateProduct}
-          onDeleteProduct={handleDeleteProduct}
-          onReorder={handleReorder}
-        />
+        <Flex justify="between" align="center">
+          <Text variant="h2" color="accent">
+            Products ({products.length})
+          </Text>
+          {!showForm && (
+            <Button onClick={() => setShowForm(true)}>Add Product</Button>
+          )}
+        </Flex>
+
+        {showForm && (
+          <Section>
+            <ProductForm
+              onSubmit={handleAddProduct}
+              onCancel={() => setShowForm(false)}
+            />
+          </Section>
+        )}
+
+        <Section>
+          {products.length === 0 ? (
+            <EmptyState
+              title="No products yet"
+              description="Add your first product to get started"
+              action={
+                !showForm && (
+                  <Button onClick={() => setShowForm(true)}>Add Product</Button>
+                )
+              }
+            />
+          ) : (
+            <ProductList
+              products={products}
+              onUpdate={handleUpdateProduct}
+              onDelete={handleDeleteProduct}
+              onReorder={handleReorder}
+            />
+          )}
+        </Section>
       </MainContent>
     </PageLayout>
-  );
-}
-
-interface ProductsHeaderProps {
-  user: User | null;
-  onLogout: () => void;
-}
-
-function ProductsHeader({ user, onLogout }: ProductsHeaderProps) {
-  return (
-    <Header>
-      <Text variant="h3" gradient>
-        My Products
-      </Text>
-      <Flex gap="md">
-        <Text variant="caption" color="accent-blue">
-          {user?.email}
-        </Text>
-        <IconButton icon="logout" onClick={onLogout} title="Logout" />
-      </Flex>
-    </Header>
-  );
-}
-
-interface ProductsContentProps {
-  products: Product[];
-  showForm: boolean;
-  onShowForm: () => void;
-  onHideForm: () => void;
-  onAddProduct: (input: ProductInput) => Promise<void>;
-  onUpdateProduct: (
-    id: string,
-    input: Partial<ProductInput>
-  ) => Promise<boolean>;
-  onDeleteProduct: (id: string) => Promise<void>;
-  onReorder: (orderedIds: string[]) => Promise<void>;
-}
-
-function ProductsContent({
-  products,
-  showForm,
-  onShowForm,
-  onHideForm,
-  onAddProduct,
-  onUpdateProduct,
-  onDeleteProduct,
-  onReorder,
-}: ProductsContentProps) {
-  return (
-    <>
-      <Flex justify="between" align="center">
-        <Text variant="h2" color="accent">
-          Products ({products.length})
-        </Text>
-        {!showForm && <Button onClick={onShowForm}>Add Product</Button>}
-      </Flex>
-
-      {showForm && (
-        <Section>
-          <ProductForm onSubmit={onAddProduct} onCancel={onHideForm} />
-        </Section>
-      )}
-
-      <Section>
-        {products.length === 0 ? (
-          <EmptyState
-            title="No products yet"
-            description="Add your first product to get started"
-            action={
-              !showForm && <Button onClick={onShowForm}>Add Product</Button>
-            }
-          />
-        ) : (
-          <ProductList
-            products={products}
-            onUpdate={onUpdateProduct}
-            onDelete={onDeleteProduct}
-            onReorder={onReorder}
-          />
-        )}
-      </Section>
-    </>
   );
 }
